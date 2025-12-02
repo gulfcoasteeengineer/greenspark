@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Green Spark – Products</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root{--primary:#0059ff;--dark:#111;--light:#f7f9ff;--max:1200px;}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,Arial,sans-serif;}
+    body{color:var(--dark);background:#fff;line-height:1.6;}
+    img{max-width:100%;display:block;}
+    a{text-decoration:none;color:var(--primary);}
+    header{background:#fff;border-bottom:1px solid #eaeaea;padding:1rem 0;position:sticky;top:0;z-index:10;}
+    .container{width:90%;max-width:var(--max);margin:auto;}
+    nav{display:flex;justify-content:space-between;align-items:center;}
+    nav ul{list-style:none;display:flex;gap:1.5rem;}
+    .btn{background:var(--primary);color:#fff;padding:.6rem 1.2rem;border-radius:4px;display:inline-block;}
+    .hero{background:var(--light);padding:3rem 0;text-align:center;}
+    .hero h1{font-size:2rem;margin-bottom:.5rem;}
+    .cat{margin:3rem 0;}
+    .cat h2{margin-bottom:1.5rem;font-size:1.6rem;border-bottom:2px solid var(--primary);display:inline-block;padding-bottom:.25rem;}
+    .grid{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));}
+    .card{background:#fff;border:1px solid #e5e5e5;border-radius:6px;padding:1rem;text-align:center;display:flex;flex-direction:column;height:100%;}
+    .card img{aspect-ratio:1/1;object-fit:cover;margin-bottom:.75rem;}
+    .card h3{font-size:1.1rem;margin-bottom:.5rem;}
+    .card p{flex-grow:1;margin-bottom:1rem;font-size:.9rem;color:#444;}
+    footer{background:var(--dark);color:#fff;text-align:center;padding:2rem 0;font-size:.9rem;}
+    @media(min-width:900px){.hero h1{font-size:2.5rem;}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div><strong>Green Spark</strong></div>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#products">Products</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Our Products</h1>
+      <p>100 solutions across 10 categories – quality you can trust.</p>
+    </div>
+  </section>
+
+  <div class="container" id="products">
+    <!-- JavaScript will inject 10 categories × 10 products here -->
+  </div>
+
+  <footer>
+    <div class="container">
+      © <span id="yr"></span> Green Spark. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    const categories = [
+      "Pumps & Motors",
+      "Water Heaters",
+      "Pipes & Fittings",
+      "Valves & Controls",
+      "Filters & Purifiers",
+      "Storage Tanks",
+      "Monitoring Instruments",
+      "Energy Savers",
+      "HVAC Accessories",
+      "Tools & Hardware"
+    ];
+
+    // 10 generic descriptions – cycle through them
+    const descPool = [
+      "High-efficiency unit built for long life and low maintenance.",
+      "Corrosion-resistant body, ideal for harsh water conditions.",
+      "Compact design saves space, easy installation & operation.",
+      "Energy-star rated – cuts power consumption up to 25 %.",
+      "Silent operation, suitable for residential & commercial use.",
+      "Robust construction with 5-year manufacturer warranty.",
+      "Smart controls with digital display and auto-shutoff.",
+      "Eco-friendly materials, 100 % recyclable at end-of-life.",
+      "Tested to international standards: CE, ISO, RoHS.",
+      "Plug-and-play package – includes all mounting accessories."
+    ];
+
+    const productsContainer = document.getElementById('products');
+
+    let counter = 1;
+    categories.forEach(cat => {
+      const catDiv = document.createElement('div');
+      catDiv.className = 'cat';
+      catDiv.innerHTML = `<h2>${cat}</h2><div class="grid"></div>`;
+      const grid = catDiv.querySelector('.grid');
+
+      for (let i = 0; i < 10; i++) {
+        const imgSeed = `product,${counter}`;
+        const title = `${cat.split(' ')[0]} Model ${100 + counter}`;
+        const desc = descPool[i % descPool.length];
+
+        grid.insertAdjacentHTML('beforeend', `
+          <div class="card">
+            <img src="https://source.unsplash.com/400x400/?${imgSeed}" alt="${title}" loading="lazy">
+            <h3>${title}</h3>
+            <p>${desc}</p>
+            <a href="#" class="btn">Enquire Now</a>
+          </div>`);
+        counter++;
+      }
+      productsContainer.appendChild(catDiv);
+    });
+  </script>
+</body>
+</html>
