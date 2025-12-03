@@ -13,50 +13,57 @@
       --max:1100px;
     }
     *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,Arial,sans-serif;}
-    body{color:var(--dark);background:#fff;line-height:1.6;}
-    img{max-width:100%;display:block;}
+    body{color:var(--dark);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;}
+    img{max-width:100%;display:block;height:auto;}
     a{text-decoration:none;color:var(--primary);}
-    header{background:#fff;border-bottom:1px solid #eaeaea;padding:1rem 0;position:sticky;top:0;z-index:10;}
+    header{background:#fff;border-bottom:1px solid #eaeaea;padding:.75rem 0;position:sticky;top:0;z-index:10;}
     .container{width:90%;max-width:var(--max);margin:auto;}
-    nav{display:flex;justify-content:space-between;align-items:center;}
-    nav ul{list-style:none;display:flex;gap:1.5rem;}
-    .btn{background:var(--primary);color:#fff;padding:.6rem 1.2rem;border-radius:4px;display:inline-block;}
-    .hero{background:var(--light) url("hero.jpg") center/cover no-repeat;padding:6rem 0;text-align:center;}
-    .hero h1{font-size:2.2rem;margin-bottom:1rem;}
-    .grid{display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));}
-    section{padding:3.5rem 0;}
-    h2{margin-bottom:1rem;font-size:1.8rem;}
+    nav{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+    nav ul{list-style:none;display:flex;gap:1rem;flex-wrap:wrap;margin-top:.25rem;}
+    .btn{background:var(--primary);color:#fff;padding:.6rem 1.2rem;border-radius:4px;display:inline-block;border:none;font-size:1rem;cursor:pointer;}
+    .hero{background:var(--light) url("hero.jpg") center/cover no-repeat;padding:4rem 0;text-align:center;}
+    .hero h1{font-size:clamp(1.8rem,5vw,3rem);margin-bottom:1rem;}
+    .hero p{font-size:clamp(1rem,2.5vw,1.25rem);}
+    .grid{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));}
+    section{padding:3rem 0;}
+    h2{margin-bottom:1rem;font-size:clamp(1.5rem,4vw,2rem);}
     footer{background:var(--dark);color:#fff;text-align:center;padding:2rem 0;font-size:.9rem;}
-
-    /* logo scaling – no crop, no resize */
-    .logo-wrap{height:40px;display:flex;align-items:center;}
+    .logo-wrap{height:36px;display:flex;align-items:center;}
     .logo-wrap img{height:100%;width:auto;display:block;}
 
-    @media(min-width:900px){
-      .hero h1{font-size:3rem;}
-/* Modal backdrop */
-.modal{display:none;position:fixed;z-index:999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.55);}
-.modalContent{background:#fff;margin:5% auto;padding:2rem;border-radius:6px;width:90%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;}
-.close{position:absolute;right:1rem;top:1rem;font-size:1.5rem;cursor:pointer;color:#777;}
-.close:hover{color:#000;}
-.modalContent label{display:block;margin:.75rem 0 .25rem;font-weight:600;}
-.modalContent input,.modalContent textarea{width:100%;padding:.5rem;border:1px solid #ccc;border-radius:4px;}
-.modalContent .btn{width:100%;margin-top:1rem;}
+    /* hamburger (no js) */
+    #nav-toggle{display:none}
+    .hamburger{display:none;font-size:1.8rem;cursor:pointer;color:var(--dark);}
+    @media(max-width:768px){
+      .hamburger{display:block}
+      nav ul{flex-direction:column;width:100%;max-height:0;overflow:hidden;transition:max-height .3s ease;}
+      #nav-toggle:checked + .hamburger + ul{max-height:300px;padding-top:.5rem}
+      nav ul li a{display:block;padding:.5rem 0}
+      /* mobile line-break for contact */
+      .contact-item{display:block;margin:.25rem 0;}
     }
+
+    /* modal */
+    .modal{display:none;position:fixed;z-index:999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.55);}
+    .modalContent{background:#fff;margin:5% auto;padding:1.5rem;border-radius:6px;width:90%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative;}
+    .close{position:absolute;right:1rem;top:1rem;font-size:1.5rem;cursor:pointer;color:#777;}
+    .close:hover{color:#000;}
+    .modalContent label{display:block;margin:.75rem 0 .25rem;font-weight:600;}
+    .modalContent input,.modalContent textarea{width:100%;padding:.5rem;border:1px solid #ccc;border-radius:4px;font-size:1rem;}
+    .modalContent .btn{width:100%;margin-top:1rem;}
   </style>
 </head>
+<body>
+
 <!-- QUOTE MODAL -->
 <div id="quoteModal" class="modal">
   <div class="modalContent">
     <span class="close">&times;</span>
     <h2>Request a Quote</h2>
-    <form action="https://formsubmit.co/yourmail@example.com" method="POST">
-      <!-- honeypot -->
+    <form action="https://formsubmit.co/info@greenspark.in" method="POST">
       <input type="text" name="_honey" style="display:none">
-      <!-- disable captcha -->
       <input type="hidden" name="_captcha" value="false">
-      <!-- redirect after success (optional) -->
-      <input type="hidden" name="_next" value="https://greenspark.in/thank-you.html">
+      <input type="hidden" name="_next" value="https://www.greenspark.in/thank-you.html">
 
       <label>Name *</label>
       <input type="text" name="name" required>
@@ -80,83 +87,103 @@
     </form>
   </div>
 </div>
-<body>
-  <header>
-    <div class="container">
-      <nav>
-        <div class="logo-wrap">
-          <img src="logo-final-smooth (1).png" alt="Green Spark">
-        </div>
-        <ul>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#products-home">Products</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
 
-  <section class="hero">
-    <div class="container">
-      <h1>Efficiency-driven Electrical & MEP Solutions for Modern Projects</h1>
-      <p>Empowering businesses with sustainable engineering, innovative designs, and cost-saving strategies across the UAE and India.</p>
-      <a href="#contact" class="btn">Get a Free Quote</a>
-    </div>
-  </section>
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo-wrap">
+        <img src="logo-final-smooth (1).png" alt="Green Spark">
+      </div>
+      <input type="checkbox" id="nav-toggle">
+      <label for="nav-toggle" class="hamburger">&#9776;</label>
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#products-home">Products</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-  <section id="services">
-    <div class="container">
-      <h2>What We Do</h2>
-      <div class="grid">
-        <div>
-          <h3>Electrical System Design</h3>
-          <p>Comprehensive electrical layouts, floor box planning, and smart lighting coordination for commercial and residential spaces.</p>
-        </div>
-        <div>
-          <h3>MEP Integration</h3>
-          <p>Seamless Mechanical, Electrical & Plumbing design, integrating advanced solutions for energy efficiency and robust performance.</p>
-        </div>
-        <div>
-          <h3>Sustainable Engineering</h3>
-          <p>Implementing eco-friendly technologies and practices—reduce energy costs up to 30% and promote green building compliance.</p>
-        </div>
+<section class="hero">
+  <div class="container">
+    <h1>Efficiency-driven Electrical &amp; MEP Solutions for Modern Projects</h1>
+    <p>Empowering businesses with sustainable engineering, innovative designs, and cost-saving strategies across the UAE and India.</p>
+    <a href="#contact" class="btn">Get a Free Quote</a>
+  </div>
+</section>
+
+<section id="services">
+  <div class="container">
+    <h2>What We Do</h2>
+    <div class="grid">
+      <div>
+        <h3>Electrical System Design</h3>
+        <p>Comprehensive electrical layouts, floor box planning, and smart lighting coordination for commercial and residential spaces.</p>
+      </div>
+      <div>
+        <h3>MEP Integration</h3>
+        <p>Seamless Mechanical, Electrical &amp; Plumbing design, integrating advanced solutions for energy efficiency and robust performance.</p>
+      </div>
+      <div>
+        <h3>Sustainable Engineering</h3>
+        <p>Implementing eco-friendly technologies and practices—reduce energy costs up to 30 % and promote green building compliance.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- PRODUCTS SECTION -->
-  <section id="products-home" style="background:var(--light);padding:4rem 0;text-align:center;">
-    <div class="container">
-      <h2>Our Products</h2>
-      <p>Browse our complete water-treatment range.</p>
-      <a href="products.html" target="_blank" rel="noopener" class="btn">View All Products</a>
-    </div>
-  </section>
+<section id="products-home" style="background:var(--light);padding:4rem 0;text-align:center;">
+  <div class="container">
+    <h2>Our Products</h2>
+    <p>Browse our complete water-treatment range.</p>
+    <a href="products.html" target="_blank" rel="noopener" class="btn">View All Products</a>
+  </div>
+</section>
 
-  <section id="about" style="background:var(--light);">
-    <div class="container">
-      <h2>About Us</h2>
-      <p>Green Spark was founded by seasoned engineers driven to elevate industry standards with smart, sustainable solutions. Serving businesses, developers, and homeowners, we blend innovation with precision, delivering value at every stage. Our commitment: quality design, transparent communication, and measurable results that power your growth.</p>
-    </div>
-  </section>
+<section id="about" style="background:var(--light);">
+  <div class="container">
+    <h2>About Us</h2>
+    <p>Green Spark was founded by seasoned engineers driven to elevate industry standards with smart, sustainable solutions. Serving businesses, developers, and homeowners, we blend innovation with precision, delivering value at every stage. Our commitment: quality design, transparent communication, and measurable results that power your growth.</p>
+  </div>
+</section>
 
-  <section id="contact">
-    <div class="container" style="text-align:center;">
-      <h2>Let’s Talk</h2>
-      <p>Email us at <a href="mailto:info@greenspark.in">info@greenspark.in</a> or call <a href="tel:+971544743515">+971 5447 43515</a></p>
-      <p>Mon – Fri 9 am – 5 pm &nbsp; | &nbsp; Dubai, UAE & Kerala, India</p>
-    </div>
-  </section>
+<section id="contact">
+  <div class="container" style="text-align:center;">
+    <h2>Let’s Talk</h2>
+    <p>
+      <span class="contact-item">Email us at <a href="mailto:info@greenspark.in">info@greenspark.in</a></span>
+      <span class="contact-item"> or call <a href="tel:+971544743515">+971 5447 43515</a></span>
+    </p>
+    <p>Mon – Fri 9 am – 5 pm &nbsp; | &nbsp; Dubai, UAE &amp; Kerala, India</p>
+  </div>
+</section>
 
-  <footer>
-    <div class="container">
-      © <span id="yr"></span> Green Spark. All rights reserved.
-    </div>
-  </footer>
+<footer>
+  <div class="container">
+    © <span id="yr"></span> Green Spark. All rights reserved.
+  </div>
+</footer>
 
-  <script>
-    document.getElementById('yr').textContent = new Date().getFullYear();
-  </script>
+<script>
+  // year in footer
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // modal open/close
+  const modal = document.getElementById('quoteModal');
+  const openBtn = document.querySelector('a[href="#contact"].btn'); // top CTA
+  const closeBtn = document.querySelector('.close');
+
+  openBtn.addEventListener('click', e => {
+    e.preventDefault();
+    modal.style.display = 'block';
+  });
+  closeBtn.onclick = () => modal.style.display = 'none';
+  window.onclick = e => {
+    if (e.target === modal) modal.style.display = 'none';
+  };
+</script>
+
 </body>
 </html>
