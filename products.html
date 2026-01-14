@@ -2,29 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Green Spark – Products</title>
+  <title>Green Spark – Key Products</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     :root{--primary:#0059ff;--dark:#111;--light:#f7f9ff;--max:1200px;}
     *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,Arial,sans-serif;}
-    body{color:var(--dark);background:#fff;line-height:1.6;}
+    body{color:var(--dark);background:#fff;line-height:1.6;display:flex;flex-direction:column;min-height:100vh;}
     img{max-width:100%;display:block;}
     a{text-decoration:none;color:var(--primary);}
-    header{background:#fff;border-bottom:1px solid #eaeaea;padding:1rem 0;position:sticky;top:0;z-index:10;}
+    header{background:#fff;border-bottom:1px solid #eaeaea;padding:.75rem 0;position:sticky;top:0;z-index:10;}
     .container{width:90%;max-width:var(--max);margin:auto;}
     nav{display:flex;justify-content:space-between;align-items:center;}
+    nav .brand{display:flex;align-items:center;gap:.5rem;font-weight:700;font-size:1.1rem;}
+    nav .brand img{height:36px;}
     nav ul{list-style:none;display:flex;gap:1.5rem;}
-    .btn{background:var(--primary);color:#fff;padding:.6rem 1.2rem;border-radius:4px;display:inline-block;}
+    .btn{background:var(--primary);color:#fff;padding:.6rem 1.2rem;border-radius:4px;display:inline-block;margin-top:auto;cursor:pointer;border:none;font-size:1rem;}
     .hero{background:var(--light);padding:3rem 0;text-align:center;}
     .hero h1{font-size:2rem;margin-bottom:.5rem;}
-    .cat{margin:3rem 0;}
-    .cat h2{margin-bottom:1.5rem;font-size:1.6rem;border-bottom:2px solid var(--primary);display:inline-block;padding-bottom:.25rem;}
-    .grid{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));}
-    .card{background:#fff;border:1px solid #e5e5e5;border-radius:6px;padding:1rem;text-align:center;display:flex;flex-direction:column;height:100%;}
-    .card img{aspect-ratio:1/1;object-fit:cover;margin-bottom:.75rem;}
-    .card h3{font-size:1.1rem;margin-bottom:.5rem;}
-    .card p{flex-grow:1;margin-bottom:1rem;font-size:.9rem;color:#444;}
-    footer{background:var(--dark);color:#fff;text-align:center;padding:2rem 0;font-size:.9rem;}
+    .grid{display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin:3rem auto;max-width:1100px;}
+    .card{background:#fff;border:1px solid #e5e5e5;border-radius:6px;padding:1.25rem;text-align:center;display:flex;flex-direction:column;height:100%;transition:transform .25s ease,filter .25s ease;}
+    .card:hover{transform:scale(1.10);filter:brightness(1.08);}
+    .card img{aspect-ratio:4/3;object-fit:cover;margin-bottom:1rem;}
+    .card h3{font-size:1.2rem;margin-bottom:.5rem;}
+    .card ul{text-align:left;margin:.75rem 0 1rem 1.2rem;font-size:.9rem;color:#444;}
+    footer{background:var(--dark);color:#fff;text-align:center;padding:2rem 0;font-size:.9rem;margin-top:auto;}
+    /* popup */
+    .popup{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:999}
+    .popup.hidden{display:none}
+    .popup form{background:#fff;padding:2rem;border-radius:6px;width:92%;max-width:440px;display:flex;flex-direction:column;gap:.6rem}
+    .popup h3{margin-bottom:.4rem}
+    .popup input,.popup textarea{width:100%;padding:.5rem;border:1px solid #ccc;border-radius:4px;font-size:.95rem}
+    .popup textarea{resize:vertical;height:90px}
+    .popup .err{color:#d40000;font-size:.85rem}
+    .popup .actions{display:flex;gap:.8rem;margin-top:.6rem}
+    .popup button{cursor:pointer;padding:.55rem 1.2rem;border:none;border-radius:4px;font-size:1rem}
+    .popup button[type=submit]{background:var(--primary);color:#fff}
+    .popup button.cancel{background:#eee;color:#111}
     @media(min-width:900px){.hero h1{font-size:2.5rem;}}
   </style>
 </head>
@@ -32,7 +45,10 @@
   <header>
     <div class="container">
       <nav>
-        <div><strong>Green Spark</strong></div>
+        <div class="brand">
+          <img src="img/logo.jpg" alt="Green Spark">
+          <span>Green Spark</span>
+        </div>
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="#products">Products</a></li>
@@ -43,13 +59,67 @@
 
   <section class="hero">
     <div class="container">
-      <h1>Our Products</h1>
-      <p>100 solutions across 10 categories – quality you can trust.</p>
+      <h1>Green Spark – Core Products</h1>
+      <p>Engineered HVAC & filtration solutions you can trust.</p>
     </div>
   </section>
 
-  <div class="container" id="products">
-    <!-- JavaScript will inject 10 categories × 10 products here -->
+  <div class="container grid" id="products">
+    <!-- 1  Inertial Filter & Bleed Fan -->
+    <div class="card">
+      <img src="img/inertial-filter.jpg" alt="Inertial Filter & Bleed Fan">
+      <h3>Inertial Filter & Bleed Fan</h3>
+      <ul>
+        <li>Self-cleaning air pre-filtration</li>
+        <li>Removes sand/dust by inertial separation</li>
+        <li>Continuous particle discharge via bleed fan</li>
+        <li>Ideal for fresh-air intakes & harsh environments</li>
+        <li>Low maintenance, reliable operation</li>
+      </ul>
+      <button class="btn enquireBtn" data-product="Inertial Filter & Bleed Fan">Enquire Now</button>
+    </div>
+
+    <!-- 2  TUTCO Electric Duct Heaters -->
+    <div class="card">
+      <img src="img/tutco-duct-heater.jpg" alt="TUTCO Electric Duct Heaters">
+      <h3>TUTCO Electric Duct Heaters</h3>
+      <ul>
+        <li>UL 1996 listed (UL & ETL)</li>
+        <li>High-quality electric heating for HVAC</li>
+        <li>Suitable for residential & commercial systems</li>
+        <li>Custom-engineered for reliable performance</li>
+        <li>Stand-alone or multi-zone configuration</li>
+      </ul>
+      <button class="btn enquireBtn" data-product="TUTCO Electric Duct Heaters">Enquire Now</button>
+    </div>
+
+    <!-- 3  GC Electric Duct Heaters -->
+    <div class="card">
+      <img src="img/gc-duct-heater.jpg" alt="GC Electric Duct Heaters">
+      <h3>GC Electric Duct Heaters</h3>
+      <ul>
+        <li>Manufactured to international standards</li>
+        <li>Slipped-in finned tubular type</li>
+        <li>All components UL listed</li>
+        <li>Custom-built control panels included</li>
+        <li>Competitive pricing, consultant approved</li>
+      </ul>
+      <button class="btn enquireBtn" data-product="GC Electric Duct Heaters">Enquire Now</button>
+    </div>
+
+    <!-- 4  DDC Control Panels -->
+    <div class="card">
+      <img src="img/ddc-panel.jpg" alt="DDC Control Panels">
+      <h3>DDC Control Panels</h3>
+      <ul>
+        <li>Precise HVAC control & automation</li>
+        <li>Fully compatible with BMS systems</li>
+        <li>Custom-built panels for AHU/FCU/VAV</li>
+        <li>Energy-efficient operation</li>
+        <li>Suitable for new or retrofit projects</li>
+      </ul>
+      <button class="btn enquireBtn" data-product="DDC Control Panels">Enquire Now</button>
+    </div>
   </div>
 
   <footer>
@@ -58,60 +128,75 @@
     </div>
   </footer>
 
+  <!-- enquiry popup -->
+  <div id="enqPopup" class="popup hidden">
+    <form id="enqForm" autocomplete="off">
+      <h3>Quick Enquiry – <span id="popupProduct"></span></h3>
+
+      <label>Name *</label>
+      <input name="name" required placeholder="Your name" value="Abraham">
+
+      <label>Phone</label>
+      <input name="phone" type="tel" placeholder="+971 50 123 4567" value="+971 56789123">
+
+      <label>E-mail</label>
+      <input name="email" type="email" placeholder="someone@example.com" value="info@greenspark.in">
+
+      <label>Company</label>
+      <input name="company" placeholder="Company (optional)">
+
+      <label>Message (max 1000 chars)</label>
+      <textarea name="message" maxlength="1000" placeholder="Optional message…"></textarea>
+
+      <div class="err hidden" id="formErr">Please enter at least a phone number OR an e-mail.</div>
+
+      <div class="actions">
+        <button type="submit">Send enquiry</button>
+        <button type="button" class="cancel">Cancel</button>
+      </div>
+    </form>
+  </div>
+
   <script>
-    document.getElementById('yr').textContent = new Date().getFullYear();
+    const GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbwXXXXXXXXXXXXXXXXXXXX/exec"; // <-- replace with yours
+    const popup   = document.getElementById('enqPopup');
+    const form    = document.getElementById('enqForm');
+    const prodSpan= document.getElementById('popupProduct');
+    const errBox  = document.getElementById('formErr');
 
-    const categories = [
-      "Pumps & Motors",
-      "Water Heaters",
-      "Pipes & Fittings",
-      "Valves & Controls",
-      "Filters & Purifiers",
-      "Storage Tanks",
-      "Monitoring Instruments",
-      "Energy Savers",
-      "HVAC Accessories",
-      "Tools & Hardware"
-    ];
+    document.querySelectorAll('.enquireBtn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        prodSpan.textContent = btn.dataset.product;
+        popup.classList.remove('hidden');
+        form.name.value = "Abraham";
+        form.phone.value = "+971 56789123";
+        form.email.value = "info@greenspark.in";
+        errBox.classList.add('hidden');
+      });
+    });
 
-    // 10 generic descriptions – cycle through them
-    const descPool = [
-      "High-efficiency unit built for long life and low maintenance.",
-      "Corrosion-resistant body, ideal for harsh water conditions.",
-      "Compact design saves space, easy installation & operation.",
-      "Energy-star rated – cuts power consumption up to 25 %.",
-      "Silent operation, suitable for residential & commercial use.",
-      "Robust construction with 5-year manufacturer warranty.",
-      "Smart controls with digital display and auto-shutoff.",
-      "Eco-friendly materials, 100 % recyclable at end-of-life.",
-      "Tested to international standards: CE, ISO, RoHS.",
-      "Plug-and-play package – includes all mounting accessories."
-    ];
+    popup.addEventListener('click',e=>{
+      if(e.target.classList.contains('popup') || e.target.classList.contains('cancel'))
+        popup.classList.add('hidden');
+    });
 
-    const productsContainer = document.getElementById('products');
+    form.addEventListener('submit',async(e)=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.product = prodSpan.textContent;
 
-    let counter = 1;
-    categories.forEach(cat => {
-      const catDiv = document.createElement('div');
-      catDiv.className = 'cat';
-      catDiv.innerHTML = `<h2>${cat}</h2><div class="grid"></div>`;
-      const grid = catDiv.querySelector('.grid');
-
-      for (let i = 0; i < 10; i++) {
-        const imgSeed = `product,${counter}`;
-        const title = `${cat.split(' ')[0]} Model ${100 + counter}`;
-        const desc = descPool[i % descPool.length];
-
-        grid.insertAdjacentHTML('beforeend', `
-          <div class="card">
-            <img src="https://source.unsplash.com/400x400/?${imgSeed}" alt="${title}" loading="lazy">
-            <h3>${title}</h3>
-            <p>${desc}</p>
-            <a href="#" class="btn">Enquire Now</a>
-          </div>`);
-        counter++;
+      if(!data.phone.trim() && !data.email.trim()){
+        errBox.classList.remove('hidden'); return;
       }
-      productsContainer.appendChild(catDiv);
+      errBox.classList.add('hidden');
+
+      try{
+        await fetch(GOOGLE_SCRIPT,{method:'POST',body:new FormData(form)});
+        alert("Thank you!  Your enquiry has been sent.");
+        popup.classList.add('hidden');
+      }catch(x){
+        alert("Sorry, something went wrong.  Please try again.");
+      }
     });
   </script>
 </body>
