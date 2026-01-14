@@ -17,6 +17,7 @@
     nav .brand img{height:36px;}
     nav ul{list-style:none;display:flex;gap:1.5rem;}
     .btn{background:var(--primary);color:#fff;padding:.6rem 1.2rem;border-radius:4px;display:inline-block;margin-top:auto;cursor:pointer;border:none;font-size:1rem;}
+    .btn:disabled{background:#aaa;cursor:not-allowed}
     .hero{background:var(--light);padding:3rem 0;text-align:center;}
     .hero h1{font-size:2rem;margin-bottom:.5rem;}
     .grid{display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin:3rem auto;max-width:1100px;}
@@ -33,12 +34,10 @@
     .popup h3{margin-bottom:.4rem}
     .popup input,.popup textarea{width:100%;padding:.5rem;border:1px solid #ccc;border-radius:4px;font-size:.95rem}
     .popup textarea{resize:vertical;height:90px}
-    .popup .err{color:#d40000;font-size:.85rem}
     .popup .actions{display:flex;gap:.8rem;margin-top:.6rem}
     .popup button{cursor:pointer;padding:.55rem 1.2rem;border:none;border-radius:4px;font-size:1rem}
     .popup button[type=submit]{background:var(--primary);color:#fff}
     .popup button.cancel{background:#eee;color:#111}
-    @media(min-width:900px){.hero h1{font-size:2.5rem;}}
   </style>
 </head>
 <body>
@@ -134,13 +133,13 @@
       <h3>Quick Enquiry – <span id="popupProduct"></span></h3>
 
       <label>Name *</label>
-      <input name="name" required placeholder="Your name" value="Abraham">
+      <input name="name" required placeholder="Your name">
 
       <label>Phone</label>
-      <input name="phone" type="tel" placeholder="+971 50 123 4567" value="+971 56789123">
+      <input name="phone" type="tel" placeholder="+971 50 123 4567">
 
       <label>E-mail</label>
-      <input name="email" type="email" placeholder="someone@example.com" value="info@greenspark.in">
+      <input name="email" type="email" placeholder="someone@example.com">
 
       <label>Company</label>
       <input name="company" placeholder="Company (optional)">
@@ -148,52 +147,58 @@
       <label>Message (max 1000 chars)</label>
       <textarea name="message" maxlength="1000" placeholder="Optional message…"></textarea>
 
-      <div class="err hidden" id="formErr">Please enter at least a phone number OR an e-mail.</div>
-
       <div class="actions">
-        <button type="submit">Send enquiry</button>
+        <button type="submit" id="sendBtn">Send enquiry</button>
         <button type="button" class="cancel">Cancel</button>
       </div>
     </form>
   </div>
 
   <script>
-    const GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbwXXXXXXXXXXXXXXXXXXXX/exec"; // <-- replace with yours
+    const GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbwlvAbeMwPiY7YMXnBFHhrCgm5imA0dwk_PO_IDH-mHa3hXYcXjXz0ttN9qY8qe5f6ZlQ/exec"; // <-- replace with yours
     const popup   = document.getElementById('enqPopup');
     const form    = document.getElementById('enqForm');
     const prodSpan= document.getElementById('popupProduct');
-    const errBox  = document.getElementById('formErr');
+    const sendBtn = document.getElementById('sendBtn');
 
+    // open popup
     document.querySelectorAll('.enquireBtn').forEach(btn=>{
       btn.addEventListener('click',()=>{
         prodSpan.textContent = btn.dataset.product;
         popup.classList.remove('hidden');
-        form.name.value = "Abraham";
-        form.phone.value = "+971 56789123";
-        form.email.value = "info@greenspark.in";
-        errBox.classList.add('hidden');
+        form.reset();
+        sendBtn.disabled = false;
       });
     });
 
+    // close popup
     popup.addEventListener('click',e=>{
       if(e.target.classList.contains('popup') || e.target.classList.contains('cancel'))
         popup.classList.add('hidden');
     });
 
+    // real-time enable/disable send button
+    form.addEventListener('input',()=>{
+      const p = form.phone.value.trim();
+      const e = form.email.value.trim();
+      sendBtn.disabled = !(p || e);
+    });
+
+    // handle submit
     form.addEventListener('submit',async(e)=>{
       e.preventDefault();
-      const data = Object.fromEntries(new FormData(form).entries());
-      data.product = prodSpan.textContent;
-
-      if(!data.phone.trim() && !data.email.trim()){
-        errBox.classList.remove('hidden'); return;
-      }
-      errBox.classList.add('hidden');
+      if(sendBtn.disabled) return; // extra safety
+      const data = new FormData(form);
+      data.append('product', prodSpan.textContent);
 
       try{
-        await fetch(GOOGLE_SCRIPT,{method:'POST',body:new FormData(form)});
-        alert("Thank you!  Your enquiry has been sent.");
-        popup.classList.add('hidden');
+        const res = await fetch(GOOGLE_SCRIPT,{method:'POST',body:data});
+        if(res.ok){
+          alert("Thank you!  Your enquiry has been sent.");
+          popup.classList.add('hidden');
+        }else{
+          alert("Sorry, something went wrong.  Please try again.");
+        }
       }catch(x){
         alert("Sorry, something went wrong.  Please try again.");
       }
@@ -201,4 +206,3 @@
   </script>
 </body>
 </html>
-
