@@ -45,6 +45,7 @@
     <div class="container">
       <nav>
         <div class="brand">
+          <!--  logo  -->
           <img src="logo.jpg" alt="Green Spark">
           <span>Green Spark</span>
         </div>
@@ -155,7 +156,9 @@
   </div>
 
   <script>
-    const GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbwlvAbeMwPiY7YMXnBFHhrCgm5imA0dwk_PO_IDH-mHa3hXYcXjXz0ttN9qY8qe5f6ZlQ/exec"; // <-- replace with yours
+    // 1.  CHANGE THIS TO YOUR OWN ADDRESS
+    const MY_EMAIL = "info@greenspark.in";
+
     const popup   = document.getElementById('enqPopup');
     const form    = document.getElementById('enqForm');
     const prodSpan= document.getElementById('popupProduct');
@@ -167,7 +170,7 @@
         prodSpan.textContent = btn.dataset.product;
         popup.classList.remove('hidden');
         form.reset();
-        sendBtn.disabled = false;
+        sendBtn.disabled = true;
       });
     });
 
@@ -177,22 +180,28 @@
         popup.classList.add('hidden');
     });
 
-    // real-time enable/disable send button
+    // enable button only when phone OR email present
     form.addEventListener('input',()=>{
       const p = form.phone.value.trim();
       const e = form.email.value.trim();
       sendBtn.disabled = !(p || e);
     });
 
-    // handle submit
+    // submit via FormSubmit.co
     form.addEventListener('submit',async(e)=>{
       e.preventDefault();
-      if(sendBtn.disabled) return; // extra safety
+      if(sendBtn.disabled) return;
+
       const data = new FormData(form);
-      data.append('product', prodSpan.textContent);
+      data.append('_subject', `GreenSpark enquiry – ${prodSpan.textContent}`);
+      data.append('_replyto', data.get('email') || data.get('phone')); // fallback
+      data.append('_autoresponse','Thank you for your enquiry. We will contact you soon.');
 
       try{
-        const res = await fetch(GOOGLE_SCRIPT,{method:'POST',body:data});
+        const res = await fetch('https://formsubmit.co/ajax/'+MY_EMAIL,{
+          method:'POST',
+          body:data
+        });
         if(res.ok){
           alert("Thank you!  Your enquiry has been sent.");
           popup.classList.add('hidden');
