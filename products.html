@@ -13,8 +13,7 @@
     header{background:#fff;border-bottom:1px solid #eaeaea;padding:.75rem 0;position:sticky;top:0;z-index:10;}
     .container{width:90%;max-width:var(--max);margin:auto;}
     nav{display:flex;justify-content:space-between;align-items:center;}
-    nav .brand{display:flex;align-items:center;gap:.5rem;font-weight:700;font-size:1.1rem;}
-    nav .brand img{height:36px;}
+    nav .brand img{height:40px}           /* standard logo height */
     nav ul{list-style:none;display:flex;gap:1.5rem;}
     .btn{background:var(--primary);color:#fff;padding:.6rem 1.2rem;border-radius:4px;display:inline-block;margin-top:auto;cursor:pointer;border:none;font-size:1rem;}
     .btn:disabled{background:#aaa;cursor:not-allowed}
@@ -38,17 +37,20 @@
     .popup button{cursor:pointer;padding:.55rem 1.2rem;border:none;border-radius:4px;font-size:1rem}
     .popup button[type=submit]{background:var(--primary);color:#fff}
     .popup button.cancel{background:#eee;color:#111}
+
+    /* mobile tweak */
+    @media(max-width:600px){
+      nav .brand img{height:32px}
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="container">
       <nav>
-        <div class="brand">
-          <!--  logo  -->
+        <a href="index.html" class="brand">
           <img src="gslogo.jpg" alt="Green Spark">
-          <span>Green Spark</span>
-        </div>
+        </a>
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="#products">Products</a></li>
@@ -93,10 +95,10 @@
       <button class="btn enquireBtn" data-product="TUTCO Electric Duct Heaters">Enquire Now</button>
     </div>
 
-    <!-- 3  GEC Electric Duct Heaters -->
+    <!-- 3  GC Electric Duct Heaters -->
     <div class="card">
-      <img src="gc-duct-heater.jpg" alt="GEC Electric Duct Heaters">
-      <h3>GEC Electric Duct Heaters</h3>
+      <img src="gc-duct-heater.jpg" alt="GC Electric Duct Heaters">
+      <h3>GC Electric Duct Heaters</h3>
       <ul>
         <li>Manufactured to international standards</li>
         <li>Slipped-in finned tubular type</li>
@@ -194,14 +196,11 @@
 
       const data = new FormData(form);
       data.append('_subject', `GreenSpark enquiry – ${prodSpan.textContent}`);
-      data.append('_replyto', data.get('email') || data.get('phone')); // fallback
+      data.append('_replyto', data.get('email') || data.get('phone'));
       data.append('_autoresponse','Thank you for your enquiry. We will contact you soon.');
 
       try{
-        const res = await fetch('https://formsubmit.co/ajax/'+MY_EMAIL,{
-          method:'POST',
-          body:data
-        });
+        const res = await fetch('https://formsubmit.co/ajax/'+MY_EMAIL,{method:'POST',body:data});
         if(res.ok){
           alert("Thank you!  Your enquiry has been sent.");
           popup.classList.add('hidden');
@@ -215,9 +214,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
